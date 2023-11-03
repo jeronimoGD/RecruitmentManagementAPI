@@ -3,8 +3,8 @@
 # Requirements:
 As developer you need to develop an API using .NET 7 to cover the following features.
 Features to implement:
-  • Recruiter CRUD
-  • Candidate CRUD
+  1. Recruiter CRUD
+  2. Candidate CRUD
   • Document CRUD
   • As recruiter you can log-in
   • As recruiter you can create/edit/delete a candidate
