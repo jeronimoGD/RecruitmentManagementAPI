@@ -1,8 +1,8 @@
 # RecruitmentManagementAPI
 
-# Requirements:
+## Requirements:
 As developer you need to develop an API using .NET 7 to cover the following features.\
-Features to implement:
+### Features to implement:
   1. Recruiter CRUD
   2. Candidate CRUD
   3. Document CRUD
@@ -11,17 +11,17 @@ Features to implement:
   6. As recruiter you can create/edit/delete a document (CSV)
   7. As candidate you can log-in
   8. As candidate you can upload/re-upload document (CSV)
-\Recommended tools:
+### Recommended tools:
   1. Visual Studio
   2. Postman
   3. Git
-\Guidelines:
+### Guidelines:
   1. Use a public GitHub repository so we can review your code
   2. Use best practices
   3. Comment your decisions
   4. Clean code
 
-# Initial Task breakdown
+## Initial Task breakdown
 1. Create API .NET7 template project.
 2. Create DB migrations following a code first aproach. (Include migration to create data base and items if not found on start up)
 4. Implement Repository and UnitOfWork Patterns
