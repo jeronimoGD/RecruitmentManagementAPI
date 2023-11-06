@@ -27,6 +27,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 // Inject Unit Of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Inject Mapping Config
+builder.Services.AddAutoMapper(typeof(MappingConfig));
+
+// Inject common utils service
+builder.Services.AddSingleton<CommonUtils>();
 
 var app = builder.Build();
 
