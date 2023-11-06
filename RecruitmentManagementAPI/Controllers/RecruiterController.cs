@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using RecruitmentManagementAPI.Models;
 using RecruitmentManagementAPI.Models.AplicationResponse;
 using RecruitmentManagementAPI.Models.DTOs.EntitiesDTO;
+using RecruitmentManagementAPI.Models.DTOs.LoginDTO;
 using RecruitmentManagementAPI.Models.DTOs.RegisterDTO;
 using RecruitmentManagementAPI.Models.Entities;
 using RecruitmentManagementAPI.Services;
@@ -33,7 +34,8 @@ namespace RecruitmentManagementAPI.Controllers
             _commonUtils = commonUtils;
         }
 
-        [HttpGet(Name = "GetRecruiters")]
+        [HttpGet("GetRecruiters", Name = "GetRecruiters")]
+        [Authorize(Roles = "recruiter")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -60,74 +62,38 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpGet("id:int", Name = "GetRecruiter")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> GetRecruiter(int id)
-        {
-            try
-            {
-                if (id <= 0)
-                {
-                    _response = APIResponse.BadRequest(null, new List<string> { $"Introduced id {id} is not valid. I has to be greater than 0." });
-                }
-                else
-                {
-                    var recruiter = await _unitOfWork.Recruiters.Get(v => v.Id == id);
-
-                    if (recruiter == null)
-                    {
-                        _response = APIResponse.NotFound(new List<string> { $"Recruiter with id {id} not found" });
-                    }
-                    else
-                    {
-                        _response = APIResponse.Ok(_mapper.Map<UserDTO>(recruiter));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                _response = APIResponse.InternalServerError(new List<string>() { e.ToString() });
-            }
-
-            return _commonUtils.GetResult(this, _response);
-        }
-
-        [HttpPost ( Name = "CreateRecruiter") ]
+        [HttpPost("RegisterRecruiter", Name = "RegisterRecruiter")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateRecruiter([FromBody] UserCreateDTO recruiterCreateDTO)
+        public async Task<ActionResult<APIResponse>> RegisterRecruiter([FromBody] RegisterRequestDTO loginRequestDTO)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    _response = APIResponse.BadRequest(ModelState, new List<string> { $"Wrong input model {recruiterCreateDTO}" });
+                    _response = APIResponse.BadRequest(ModelState, new List<string> { $"Wrong input model {loginRequestDTO}" });
                 }
                 else
                 {
-                    var doesRecruiterExist = await _unitOfWork.Recruiters.Get(v => v.Name.ToLower() == recruiterCreateDTO.Name.ToLower());
-                    
-                    if (doesRecruiterExist != null)
+                    bool doesRecruiterExist = _unitOfWork.Recruiters.DoesUserExists(loginRequestDTO.Name);
+                    if (doesRecruiterExist)
                     {
-                        _response = APIResponse.BadRequest(ModelState, new List<string> { $"The recruiter with name {recruiterCreateDTO.Name} already exists" });
+                        _response = APIResponse.BadRequest(ModelState, new List<string> { $"The recruiter with name {loginRequestDTO.Name} already exists" });
                     }
                     else
                     {
-
-                        Recruiter newRecruiter = _mapper.Map<Recruiter>(recruiterCreateDTO);
-                        newRecruiter.CreationTime = DateTime.UtcNow;
-                        newRecruiter.UpdateTime = DateTime.UtcNow;
-                        newRecruiter.Rol = "recruiter";
-
-                        await _unitOfWork.Recruiters.Create(newRecruiter);
-
-                        _response = APIResponse.Created(newRecruiter);
+                        if (!_commonUtils.IsStrongPassword(loginRequestDTO.Password))
+                        {
+                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"The password is no strong enough. Please create a minimum 8 characters password with atleast 1 digit, 1 simbol, 1 uppercase and 1 lowercase" });
+                        }
+                        else
+                        {
+                            var newRecruiter = await _unitOfWork.Recruiters.Register(loginRequestDTO);
+                            _response = APIResponse.Created(newRecruiter);
+                        }
                     }
-                }               
+                }
             }
             catch (Exception e)
             {
@@ -137,7 +103,44 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpDelete("{id:int}", Name = "DeleteRecruiter")]
+        [HttpPost("LogIn", Name = "LogIn" )]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginRequestDTO)
+        {
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _response = APIResponse.BadRequest(ModelState, new List<string> { $"Wrong input model {loginRequestDTO}" });
+                }
+                else
+                {
+                    var loginResponse = await _unitOfWork.Recruiters.LogIn(loginRequestDTO);
+
+                    if (loginResponse.User == null || string.IsNullOrEmpty(loginResponse.Token))
+                    {
+                        _response = APIResponse.BadRequest(ModelState, new List<string> { $"Wrong UserName ({loginRequestDTO.UserName}) or Password ({loginRequestDTO.Password})" });
+                    }
+                    else
+                    {
+                        _response = APIResponse.Ok(loginResponse);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _response = APIResponse.InternalServerError(new List<string>() { e.ToString() });
+            }
+
+            return _commonUtils.GetResult(this, _response);
+        }
+
+
+        [HttpDelete("DeleteRecruiter{id:int}", Name = "DeleteRecruiter")]
+        [Authorize(Roles = "recruiter")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -174,7 +177,8 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpPut("{id:int}", Name = "UpdateRecruiter")]
+        [HttpPut("UpdateRecruiter{id:int}", Name = "UpdateRecruiter")]
+        [Authorize(Roles = "recruiter")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
