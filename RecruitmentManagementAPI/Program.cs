@@ -1,9 +1,11 @@
 using MagicVilla_API.Mapings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RecruitmentManagementAPI.Data;
+using RecruitmentManagementAPI.Models.Constants;
 using RecruitmentManagementAPI.Services;
 using RecruitmentManagementAPI.Services.Repository;
 using RecruitmentManagementAPI.Services.Repository.IRepository;
@@ -18,7 +20,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+// Set aplication settings from apsettings.json
+builder.Services.Configure<APISettings>(builder.Configuration.GetSection("AppSettings"));
 
 // Añadir security definition and requirements para autentificacion desde Swager
 builder.Services.AddSwaggerGen(options => {
@@ -51,7 +54,7 @@ builder.Services.AddSwaggerGen(options => {
 
 
 // Añadir configuration para la autentification usando JSON Web Tokens (JWT)
-var key = builder.Configuration.GetValue<string>("AuthenticationConfig:IssuerSigningKey");
+var key = builder.Configuration.GetValue<string>("AppSettings:IssuerSigningKey");
 
 builder.Services.AddAuthentication(x =>
 {

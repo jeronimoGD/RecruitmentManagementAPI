@@ -3,8 +3,11 @@ using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using RecruitmentManagementAPI.Models;
+using RecruitmentManagementAPI.Models.AplicationConstants;
 using RecruitmentManagementAPI.Models.AplicationResponse;
+using RecruitmentManagementAPI.Models.Constants;
 using RecruitmentManagementAPI.Models.DTOs.EntitiesDTO;
 using RecruitmentManagementAPI.Models.DTOs.LoginDTO;
 using RecruitmentManagementAPI.Models.DTOs.RegisterDTO;
@@ -20,10 +23,10 @@ namespace RecruitmentManagementAPI.Controllers
     public class RecruiterController : ControllerBase
     {
         private readonly ILogger<RecruiterController> _logger;
-        protected APIResponse _response;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly CommonUtils _commonUtils;
+        protected APIResponse _response;
 
         public RecruiterController(ILogger<RecruiterController> logger,IUnitOfWork unitOfWork, IMapper mapper, CommonUtils commonUtils)
         {
@@ -35,7 +38,7 @@ namespace RecruitmentManagementAPI.Controllers
         }
 
         [HttpGet("GetRecruiters", Name = "GetRecruiters")]
-        [Authorize(Roles = "recruiter")]
+        [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -140,7 +143,7 @@ namespace RecruitmentManagementAPI.Controllers
 
 
         [HttpDelete("DeleteRecruiter{id:int}", Name = "DeleteRecruiter")]
-        [Authorize(Roles = "recruiter")]
+        [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -178,7 +181,7 @@ namespace RecruitmentManagementAPI.Controllers
         }
 
         [HttpPut("UpdateRecruiter{id:int}", Name = "UpdateRecruiter")]
-        [Authorize(Roles = "recruiter")]
+        [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -206,7 +209,7 @@ namespace RecruitmentManagementAPI.Controllers
                         Recruiter updatedRecruiter = _mapper.Map<Recruiter>(recruiterUpdateDTO);
                         updatedRecruiter.UpdateTime = DateTime.UtcNow;
                         updatedRecruiter.CreationTime = DateTime.UtcNow;
-                        updatedRecruiter.Rol = "recruiter";
+                        updatedRecruiter.Rol = APIConstants.RecruiterRole;
 
                         await _unitOfWork.Recruiters.Update(updatedRecruiter);
                         _response = APIResponse.NoContent();
