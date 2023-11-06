@@ -1,5 +1,13 @@
+using MagicVilla_API.Mapings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using RecruitmentManagementAPI.Data;
+using RecruitmentManagementAPI.Services;
+using RecruitmentManagementAPI.Services.Repository;
+using RecruitmentManagementAPI.Services.Repository.IRepository;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +23,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Inject Unit Of Work
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 var app = builder.Build();
