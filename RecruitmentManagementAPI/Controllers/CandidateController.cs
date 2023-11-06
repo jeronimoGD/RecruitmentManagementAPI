@@ -6,6 +6,7 @@ using RecruitmentManagementAPI.Models.AplicationConstants;
 using RecruitmentManagementAPI.Models.AplicationResponse;
 using RecruitmentManagementAPI.Models.Constants;
 using RecruitmentManagementAPI.Models.DTOs.EntitiesDTO;
+using RecruitmentManagementAPI.Models.DTOs.LoginDTO;
 using RecruitmentManagementAPI.Models.Entities;
 using RecruitmentManagementAPI.Services;
 using RecruitmentManagementAPI.Services.Repository.IRepository;
@@ -36,6 +37,7 @@ namespace RecruitmentManagementAPI.Controllers
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetCandidates()
         {
@@ -65,6 +67,7 @@ namespace RecruitmentManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> GetCreatedCandidates()
         {
@@ -93,8 +96,10 @@ namespace RecruitmentManagementAPI.Controllers
         [HttpPost("CeateCandidate", Name = "CeateCandidate")]
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+
         public async Task<ActionResult<APIResponse>> CreateCandidate([FromBody] CandidateCreateDTO candidateCreateDTO)
         {
             try
@@ -113,16 +118,57 @@ namespace RecruitmentManagementAPI.Controllers
                     }
                     else
                     {
+                        if (!_commonUtils.IsStrongPassword(candidateCreateDTO.Password))
+                        {
+                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"The password is no strong enough. Please create a minimum 8 characters password with atleast 1 digit, 1 simbol, 1 uppercase and 1 lowercase" });
+                        }
+                        else
+                        {
+                            var recriterCreatorID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                            Candidate newCandidate = _mapper.Map<Candidate>(candidateCreateDTO);
+                            newCandidate.CreationTime = DateTime.UtcNow;
+                            newCandidate.UpdateTime = DateTime.UtcNow;
+                            newCandidate.Rol = APIConstants.CandidateRole;
+                            newCandidate.RecruiterId = int.Parse(recriterCreatorID);
 
-                        var recriterCreatorID = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                        Candidate newCandidate = _mapper.Map<Candidate>(candidateCreateDTO);
-                        newCandidate.CreationTime = DateTime.UtcNow;
-                        newCandidate.UpdateTime = DateTime.UtcNow;
-                        newCandidate.Rol = APIConstants.CandidateRole;
-                        newCandidate.RecruiterId = int.Parse(recriterCreatorID); 
+                            await _unitOfWork.Candidates.Create(newCandidate);
+                            _response = APIResponse.Created(newCandidate);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                _response = APIResponse.InternalServerError(new List<string>() { e.ToString() });
+            }
 
-                        await _unitOfWork.Candidates.Create(newCandidate);
-                        _response = APIResponse.Created(newCandidate);
+            return _commonUtils.GetResult(this, _response);
+        }
+
+        [HttpPost("CandidateLogIn", Name = "CandidateLogIn")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CandidateLogIn([FromBody] LoginRequestDTO loginRequestDTO)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    _response = APIResponse.BadRequest(ModelState, new List<string> { $"Wrong input model {loginRequestDTO}" });
+                }
+                else
+                {
+                    var loginResponse = await _unitOfWork.Candidates.LogIn(loginRequestDTO);
+
+                    if (loginResponse.User == null || string.IsNullOrEmpty(loginResponse.Token))
+                    {
+                        _response = APIResponse.BadRequest(ModelState, new List<string> { $"Wrong UserName ({loginRequestDTO.UserName}) or Password ({loginRequestDTO.Password})" });
+                    }
+                    else
+                    {
+                        _response = APIResponse.Ok(loginResponse);
                     }
                 }
             }
@@ -140,6 +186,7 @@ namespace RecruitmentManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteCandidate(int id)
         {
@@ -182,6 +229,7 @@ namespace RecruitmentManagementAPI.Controllers
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateCandidate(int id, [FromBody] UserUpdateDTO candidateUpdateDTO)
         {
@@ -210,14 +258,21 @@ namespace RecruitmentManagementAPI.Controllers
                     }
                     else
                     {
-                        Candidate updatedCandidate = _mapper.Map<Candidate>(candidateUpdateDTO);
-                        updatedCandidate.UpdateTime = DateTime.UtcNow;
-                        updatedCandidate.CreationTime = DateTime.UtcNow;
-                        updatedCandidate.Rol = APIConstants.CandidateRole;
-                        updatedCandidate.RecruiterId = int.Parse(recriterCreatorID);
+                        if (!_commonUtils.IsStrongPassword(candidateUpdateDTO.Password))
+                        {
+                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"The password is no strong enough. Please create a minimum 8 characters password with atleast 1 digit, 1 simbol, 1 uppercase and 1 lowercase" });
+                        }
+                        else
+                        {
+                            Candidate updatedCandidate = _mapper.Map<Candidate>(candidateUpdateDTO);
+                            updatedCandidate.UpdateTime = DateTime.UtcNow;
+                            updatedCandidate.CreationTime = DateTime.UtcNow;
+                            updatedCandidate.Rol = APIConstants.CandidateRole;
+                            updatedCandidate.RecruiterId = int.Parse(recriterCreatorID);
 
-                        await _unitOfWork.Candidates.Update(updatedCandidate);
-                        _response = APIResponse.NoContent();
+                            await _unitOfWork.Candidates.Update(updatedCandidate);
+                            _response = APIResponse.NoContent();
+                        }
                     }
                 }
             }

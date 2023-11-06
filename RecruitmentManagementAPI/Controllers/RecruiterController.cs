@@ -42,6 +42,7 @@ namespace RecruitmentManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<APIResponse>> GetRecruiters()
         {
             try
@@ -69,6 +70,7 @@ namespace RecruitmentManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<ActionResult<APIResponse>> RegisterRecruiter([FromBody] RegisterRequestDTO loginRequestDTO)
         {
             try
@@ -110,6 +112,7 @@ namespace RecruitmentManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> Login([FromBody] LoginRequestDTO loginRequestDTO)
         {
 
@@ -141,13 +144,13 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-
         [HttpDelete("DeleteRecruiter{id:int}", Name = "DeleteRecruiter")]
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteRecruiter(int id)
         {
@@ -185,6 +188,8 @@ namespace RecruitmentManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateRecruiter(int id,[FromBody] UserUpdateDTO recruiterUpdateDTO)
         {
             try
@@ -206,13 +211,20 @@ namespace RecruitmentManagementAPI.Controllers
                     }
                     else
                     {
-                        Recruiter updatedRecruiter = _mapper.Map<Recruiter>(recruiterUpdateDTO);
-                        updatedRecruiter.UpdateTime = DateTime.UtcNow;
-                        updatedRecruiter.CreationTime = DateTime.UtcNow;
-                        updatedRecruiter.Rol = APIConstants.RecruiterRole;
+                        if (!_commonUtils.IsStrongPassword(recruiterUpdateDTO.Password))
+                        {
+                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"The password is no strong enough. Please create a minimum 8 characters password with atleast 1 digit, 1 simbol, 1 uppercase and 1 lowercase" });
+                        }
+                        else
+                        {
+                            Recruiter updatedRecruiter = _mapper.Map<Recruiter>(recruiterUpdateDTO);
+                            updatedRecruiter.UpdateTime = DateTime.UtcNow;
+                            updatedRecruiter.CreationTime = DateTime.UtcNow;
+                            updatedRecruiter.Rol = APIConstants.RecruiterRole;
 
-                        await _unitOfWork.Recruiters.Update(updatedRecruiter);
-                        _response = APIResponse.NoContent();
+                            await _unitOfWork.Recruiters.Update(updatedRecruiter);
+                            _response = APIResponse.NoContent();
+                        }
                     }
                 }
             }

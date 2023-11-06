@@ -8,7 +8,8 @@ namespace RecruitmentManagementAPI.Services.Repository.IRepository
     public interface IRecruiterRepository : IRepository<Recruiter>
     {
         bool DoesUserExists(string userName);
-        Task<LoginResponseDTO> LogIn(LoginRequestDTO loginRequestDTO);
         Task<Recruiter> Register(RegisterRequestDTO registerRequestDTO);
+        Task<LoginResponseDTO> LogIn(LoginRequestDTO loginRequestDTO);
+
     }
 }

@@ -10,7 +10,7 @@ namespace RecruitmentManagementAPI.Services.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private IRecruiterRepository _recruiters { get; set; }
-        private IRepository<Candidate> _candidates { get; set; }
+        private ICandidateRepository _candidates { get; set; }
         private IRepository<CSVDocument> _documents { get; set; }
 
         private readonly ApplicationDbContext _dbContext;
@@ -32,11 +32,11 @@ namespace RecruitmentManagementAPI.Services.Repository
             }
         }
 
-        public IRepository<Candidate> Candidates
+        public ICandidateRepository Candidates
         {
             get
             {
-                return _candidates == null ? _candidates = new Repository<Candidate>(_dbContext) : _candidates;
+                return _candidates == null ? _candidates = new CandidateRepository(_dbContext, _mapper, _apiSettings) : _candidates;
             }
         }
 
