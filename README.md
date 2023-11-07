@@ -5,17 +5,14 @@ API para la gestion de candidatos y sus respctivos ficheros. Cuenta con un rol d
   1. Recruiter CRUD
   2. Candidate CRUD
   3. Document CRUD
-  4. As recruiter you can log-in
-  5. As recruiter you can create/edit/delete a candidate
-  6. As recruiter you can create/edit/delete a document (CSV)
-  7. As candidate you can log-in
-  8. As candidate you can upload/re-upload document (CSV)
-
-NOTA: 
-Se ha permitido que los Recruiters se puedan borrar y editar entre si.
+  4. As recruiter you see añ recruiters and delete/update is own info. 
+  5. As recruiter you can log-in
+  6. As recruiter you can create/edit/delete a candidate
+  7. As recruiter you can create/edit/delete a document (CSV)
+  8. As candidate you can log-in
+  9. As candidate you can upload/re-upload document (CSV)
 
 ## Futuras mejoras
-Las contraseñas no se guardan encriptadas.
 Como ponia un CRUD por cada entidad decidí separar una entidad para los reclutadores y otra para los candidatos. Sin embargo, despues de haberlo desarrollado convendria unificar los usuarios en una sola entidad que se relacione consigo misma para que los candidatos sigan teniendo un creador de manera que se puedan ahorrar un controlador, un repositorio y mucha repeticion de codigo. Se implementará en futuras actualizaciones.
 
 La unificacion de usuarios se puede solucionar utilizando Identity pero decidí no utilizar esta biblioteca para esta prueba tecnica por que entendi que se queria ver el diseño de los modelos y la migracion a la base de datos.
