@@ -112,12 +112,12 @@ namespace RecruitmentManagementAPI.Services
 
         public string RenameCSVFile(string fileToRenamePath, string newFileName )
         {
-            string newPath = null;
+            string newPath = Path.Combine(Path.GetDirectoryName(fileToRenamePath), newFileName);
+
             try
             {                
                 if (File.Exists(fileToRenamePath))
                 {
-                    newPath = Path.Combine(Path.GetDirectoryName(fileToRenamePath), newFileName);
                     File.Move(fileToRenamePath, newPath);
                 }
             }

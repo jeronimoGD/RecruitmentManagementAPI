@@ -17,7 +17,7 @@ using System.Collections.Generic;
 
 namespace RecruitmentManagementAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/DocumentControler")]
     [ApiController]
     public class DocumentController : ControllerBase
     {
@@ -38,7 +38,6 @@ namespace RecruitmentManagementAPI.Controllers
           ]
         }*/
 
-         // "uploadedFilePath": "C:\\Users\\jerox\\OneDrive\\Escritorio\\prueba2345.csv"
         private readonly ILogger<RecruiterController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -199,7 +198,7 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpDelete("DeleteDocument{id:int}", Name = "DeleteDocument")]
+        [HttpDelete("DeleteDocument", Name = "DeleteDocument")]
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -246,7 +245,7 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpPut("UpdateDocument{id:int}", Name = "UpdateDocument")]
+        [HttpPut("UpdateDocument", Name = "UpdateDocument")]
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

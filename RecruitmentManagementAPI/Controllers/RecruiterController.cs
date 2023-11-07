@@ -144,7 +144,7 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpDelete("DeleteRecruiter{id:int}", Name = "DeleteRecruiter")]
+        [HttpDelete("DeleteRecruiter", Name = "DeleteRecruiter")]
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -183,7 +183,7 @@ namespace RecruitmentManagementAPI.Controllers
             return _commonUtils.GetResult(this, _response);
         }
 
-        [HttpPut("UpdateRecruiter{id:int}", Name = "UpdateRecruiter")]
+        [HttpPut("UpdateRecruiter", Name = "UpdateRecruiter")]
         [Authorize(Roles = APIConstants.RecruiterRole)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
