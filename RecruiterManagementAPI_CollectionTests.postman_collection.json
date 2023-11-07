@@ -1,0 +1,1051 @@
+{
+	"info": {
+		"_postman_id": "957f98f7-47e0-4487-bd91-aa23eaa5daee",
+		"name": "RecruiterManagementAPI_CollectionTests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30987708"
+	},
+	"item": [
+		{
+			"name": "Recruiters Actions",
+			"item": [
+				{
+					"name": "Recruiters CRUD and Login",
+					"item": [
+						{
+							"name": "Register Recruiter",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Recruiter\",\r\n  \"email\": \"Recruiter@gmail.com\",\r\n  \"password\": \"Recruiter+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7245/api/RecruiterControler/RegisterRecruiter"
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"Recruiter\",\r\n  \"email\": \"Recruiter@gmail.com\",\r\n  \"password\": \"Recruiter+123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "https://localhost:7245/api/RecruiterControler/RegisterRecruiter"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 00:32:21 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 201,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": {\n        \"candidates\": [],\n        \"documents\": [],\n        \"id\": 8,\n        \"name\": \"Recruiter\",\n        \"email\": \"Recruiter@gmail.com\",\n        \"password\": \"Recruiter+123\",\n        \"rol\": \"Recruiter\",\n        \"creationTime\": \"2023-11-07T00:32:21.8429671Z\",\n        \"updateTime\": \"2023-11-07T00:32:21.8429682Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Register Recruiter To Modify",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Recruiter2\",\r\n  \"email\": \"Recruiter2@gmail.com\",\r\n  \"password\": \"Recruiter+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7245/api/RecruiterControler/RegisterRecruiter"
+							},
+							"response": [
+								{
+									"name": "Register Recruiter Copy",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"Recruiter2\",\r\n  \"email\": \"Recruiter2@gmail.com\",\r\n  \"password\": \"Recruiter+123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "https://localhost:7245/api/RecruiterControler/RegisterRecruiter"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 00:35:25 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 201,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": {\n        \"candidates\": [],\n        \"documents\": [],\n        \"id\": 9,\n        \"name\": \"Recruiter2\",\n        \"email\": \"Recruiter2@gmail.com\",\n        \"password\": \"Recruiter+123\",\n        \"rol\": \"Recruiter\",\n        \"creationTime\": \"2023-11-07T00:35:26.3176049Z\",\n        \"updateTime\": \"2023-11-07T00:35:26.3176051Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "GetRecruiters",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": {
+										"header": "{}",
+										"addTokenTo": "queryParam",
+										"algorithm": "HS256",
+										"isSecretBase64Encoded": false,
+										"payload": "{}",
+										"headerPrefix": "Bearer",
+										"queryParamKey": "token"
+									}
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"url": "https://localhost:7245/api/RecruiterControler/GetRecruiters"
+							},
+							"response": [
+								{
+									"name": "GetRecruiters",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+												"type": "text"
+											}
+										],
+										"url": "https://localhost:7245/api/RecruiterControler/GetRecruiters"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 00:54:51 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": [\n        {\n            \"id\": \"6\",\n            \"name\": \"je\",\n            \"email\": \"je\",\n            \"password\": \"Jero+1234\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"7\",\n            \"name\": \"PostmanReruiter\",\n            \"email\": \"PostmanReruiter@gmail.com\",\n            \"password\": \"Abcd+1234\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"8\",\n            \"name\": \"Recruiter\",\n            \"email\": \"Recruiter@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"9\",\n            \"name\": \"Recruiter2\",\n            \"email\": \"Recruiter2@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Recruiter Deleted",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+												"type": "text"
+											}
+										],
+										"url": "https://localhost:7245/api/RecruiterControler/GetRecruiters"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 01:03:51 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": [\n        {\n            \"id\": \"6\",\n            \"name\": \"je\",\n            \"email\": \"je\",\n            \"password\": \"Jero+1234\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"8\",\n            \"name\": \"Recruiter\",\n            \"email\": \"Recruiter@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"9\",\n            \"name\": \"Recruiter2\",\n            \"email\": \"Recruiter2@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Recruter Updated",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+												"type": "text"
+											}
+										],
+										"url": "https://localhost:7245/api/RecruiterControler/GetRecruiters"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 01:04:46 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": [\n        {\n            \"id\": \"6\",\n            \"name\": \"je\",\n            \"email\": \"je\",\n            \"password\": \"Jero+1234\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"8\",\n            \"name\": \"Recruiter\",\n            \"email\": \"Recruiter@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"9\",\n            \"name\": \"RecruiterUpdated\",\n            \"email\": \"RecruiterUpdated@gmail.com\",\n            \"password\": \"UpdatedPassword+123\",\n            \"rol\": \"Recruiter\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Recruiter LogIn",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\": \"Recruiter\",\r\n  \"password\": \"Recruiter+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:5084/api/RecruiterControler/LogIn"
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"userName\": \"Recruiter\",\r\n  \"password\": \"Recruiter+123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "https://localhost:7245/api/RecruiterControler/LogIn"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 00:37:41 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": {\n        \"user\": {\n            \"id\": \"8\",\n            \"name\": \"Recruiter\",\n            \"email\": \"Recruiter@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE\",\n        \"rol\": null\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Recruiter",
+							"request": {
+								"auth": {
+									"type": "jwt",
+									"jwt": {
+										"header": "{}",
+										"addTokenTo": "queryParam",
+										"algorithm": "HS256",
+										"isSecretBase64Encoded": false,
+										"payload": "{}",
+										"headerPrefix": "Bearer",
+										"queryParamKey": "token"
+									}
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://localhost:7245/api/RecruiterControler/DeleteRecruiter?id=7",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"RecruiterControler",
+										"DeleteRecruiter"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "7"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "GetRecruiters",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+												"type": "text"
+											}
+										],
+										"url": "https://localhost:7245/api/RecruiterControler/GetRecruiters"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 00:54:51 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": [\n        {\n            \"id\": \"6\",\n            \"name\": \"je\",\n            \"email\": \"je\",\n            \"password\": \"Jero+1234\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"7\",\n            \"name\": \"PostmanReruiter\",\n            \"email\": \"PostmanReruiter@gmail.com\",\n            \"password\": \"Abcd+1234\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"8\",\n            \"name\": \"Recruiter\",\n            \"email\": \"Recruiter@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        },\n        {\n            \"id\": \"9\",\n            \"name\": \"Recruiter2\",\n            \"email\": \"Recruiter2@gmail.com\",\n            \"password\": \"Recruiter+123\",\n            \"rol\": \"Recruiter\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "UpdateRecruiter",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 9,\r\n  \"name\": \"RecruiterUpdated\",\r\n  \"email\": \"RecruiterUpdated@gmail.com\",\r\n  \"password\": \"UpdatedPassword+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7245/api/RecruiterControler/UpdateRecruiter?Id=9",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"RecruiterControler",
+										"UpdateRecruiter"
+									],
+									"query": [
+										{
+											"key": "Id",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Candidates CRUD",
+					"item": [
+						{
+							"name": "Get Candidates",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"url": "https://localhost:7245/api/CandidateController/GetCandidates"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Candidate",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Candidate\",\r\n  \"email\": \"Candidate@gmail.com\",\r\n  \"password\": \"Candidate+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7245/api/CandidateController/CreateCandidate"
+							},
+							"response": [
+								{
+									"name": "Create Candidate",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"name\": \"Candidate\",\r\n  \"email\": \"Candidate@gmail.com\",\r\n  \"password\": \"Candidate+123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "https://localhost:7245/api/CandidateController/CreateCandidate"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 01:22:05 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 201,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": {\n        \"recruiterId\": 8,\n        \"recruiterCreator\": null,\n        \"document\": null,\n        \"id\": 9,\n        \"name\": \"Candidate\",\n        \"email\": \"Candidate@gmail.com\",\n        \"password\": \"Candidate+123\",\n        \"rol\": \"Cadidate\",\n        \"creationTime\": \"2023-11-07T01:22:05.8754803Z\",\n        \"updateTime\": \"2023-11-07T01:22:05.8754817Z\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Candidate",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyMDY5MywiZXhwIjoxNjk5NDA3MDkzLCJpYXQiOjE2OTkzMjA2OTN9.rjJU3zEldLwBZiFMDG6wmT8V_55DUvAHD9FP9IFmrQc",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 9,\r\n  \"name\": \"CandidateUpdated\",\r\n  \"email\": \"CandidateUpdated\",\r\n  \"password\": \"CandidateUpdated+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7245/api/CandidateController/UpdateCandidate?id=9",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"CandidateController",
+										"UpdateCandidate"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Try to update a candidate of a diferent recruiter",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyMDY5MywiZXhwIjoxNjk5NDA3MDkzLCJpYXQiOjE2OTkzMjA2OTN9.rjJU3zEldLwBZiFMDG6wmT8V_55DUvAHD9FP9IFmrQc",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"id\": 8,\r\n  \"name\": \"CandidateUpdated\",\r\n  \"email\": \"CandidateUpdated\",\r\n  \"password\": \"CandidateUpdated+123\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:7245/api/CandidateController/UpdateCandidate?id=8",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "7245",
+											"path": [
+												"api",
+												"CandidateController",
+												"UpdateCandidate"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "8"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 01:35:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 400,\n    \"isSuccesful\": true,\n    \"errorMessages\": [\n        \"You can not modify this candidate due to you are not the creator.\"\n    ],\n    \"result\": {\n        \"id\": {\n            \"rawValue\": \"8\",\n            \"attemptedValue\": \"8\",\n            \"errors\": [],\n            \"validationState\": 2,\n            \"isContainerNode\": false,\n            \"children\": null\n        }\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Candidate",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://localhost:7245/api/CandidateController/DeleteCandidate?id=9",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"CandidateController",
+										"DeleteCandidate"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Created Candidates",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+										"type": "text"
+									}
+								],
+								"url": "https://localhost:7245/api/CandidateController/GetCandidates"
+							},
+							"response": [
+								{
+									"name": "Get Created Candidates",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMxNzQ2MCwiZXhwIjoxNjk5NDAzODYwLCJpYXQiOjE2OTkzMTc0NjB9.7FsH2o6x2sV6l2Y1zljV3RyxjWoS2cmptbToWFOyzyE",
+												"type": "text"
+											}
+										],
+										"url": "https://localhost:7245/api/CandidateController/GetCreatedCandidates"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 01:39:22 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": [\n        {\n            \"recruiterId\": 8,\n            \"id\": \"9\",\n            \"name\": \"CandidateUpdated\",\n            \"email\": \"CandidateUpdated\",\n            \"password\": \"CandidateUpdated+123\",\n            \"rol\": \"Cadidate\"\n        }\n    ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Documents CRUD",
+					"item": [
+						{
+							"name": "GetDocuments",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyMjM0OCwiZXhwIjoxNjk5NDA4NzQ4LCJpYXQiOjE2OTkzMjIzNDh9.K4AHFoiROPYAdRXIq_6FTxXAnFYbIZ4jNdFpQSEA4Gw",
+										"type": "text"
+									}
+								],
+								"url": "https://localhost:7245/api/DocumentControler/GetDocuments"
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyMjM0OCwiZXhwIjoxNjk5NDA4NzQ4LCJpYXQiOjE2OTkzMjIzNDh9.K4AHFoiROPYAdRXIq_6FTxXAnFYbIZ4jNdFpQSEA4Gw",
+												"type": "text"
+											}
+										],
+										"url": "https://localhost:7245/api/DocumentControler/GetDocuments"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 02:00:01 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": [\n        {\n            \"id\": \"8\",\n            \"fileName\": \"prueba2.csv\",\n            \"filePath\": \"C:\\\\Users\\\\jerox\\\\OneDrive\\\\Escritorio\\\\JERO\\\\Tutoriales programacion\\\\.NET\\\\RecruitmentManagementAPI\\\\RecruitmentManagementAPI\\\\RecruitmentManagementAPI\\\\bin\\\\Debug\\\\net7.0\\\\CSVFiles\\\\prueba2.csv\"\n        },\n        {\n            \"id\": \"9\",\n            \"fileName\": \"jeroFile\",\n            \"filePath\": \"C:\\\\Users\\\\jerox\\\\OneDrive\\\\Escritorio\\\\JERO\\\\Tutoriales programacion\\\\.NET\\\\RecruitmentManagementAPI\\\\RecruitmentManagementAPI\\\\RecruitmentManagementAPI\\\\bin\\\\Debug\\\\net7.0\\\\CSVFiles\\\\jeroFile\"\n        }\n    ]\n}"
+								}
+							]
+						},
+						{
+							"name": "Create Document",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyMjM0OCwiZXhwIjoxNjk5NDA4NzQ4LCJpYXQiOjE2OTkzMjIzNDh9.K4AHFoiROPYAdRXIq_6FTxXAnFYbIZ4jNdFpQSEA4Gw",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n  \"fileName\": \"csvPrueba\",\r\n  \"csvColumns\": [\r\n    \"Name\",\r\n    \"Email\"\r\n  ],\r\n  \"csvData\": [\r\n    [\r\n      \"Jero\",\"jero@gmailcom\"\r\n    ],\r\n    [\r\n      \"Juan\",\"juan@gmailcom\"\r\n    ]\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7245/api/DocumentControler/CreateDocument",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"DocumentControler",
+										"CreateDocument"
+									],
+									"query": [
+										{
+											"key": "Authen",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyMjM0OCwiZXhwIjoxNjk5NDA4NzQ4LCJpYXQiOjE2OTkzMjIzNDh9.K4AHFoiROPYAdRXIq_6FTxXAnFYbIZ4jNdFpQSEA4Gw",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": " {\r\n  \"fileName\": \"csvPrueba\",\r\n  \"csvColumns\": [\r\n    \"Name\",\r\n    \"Email\"\r\n  ],\r\n  \"csvData\": [\r\n    [\r\n      \"Jero\",\"jero@gmailcom\"\r\n    ],\r\n    [\r\n      \"Juan\",\"juan@gmailcom\"\r\n    ]\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:7245/api/DocumentControler/CreateDocument",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "7245",
+											"path": [
+												"api",
+												"DocumentControler",
+												"CreateDocument"
+											],
+											"query": [
+												{
+													"key": "Authen",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 07 Nov 2023 02:02:50 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Kestrel"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"statusCode\": 201,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": {\n        \"id\": \"16\",\n        \"fileName\": \"csvPrueba.csv\",\n        \"filePath\": \"C:\\\\Users\\\\jerox\\\\OneDrive\\\\Escritorio\\\\JERO\\\\Tutoriales programacion\\\\.NET\\\\RecruitmentManagementAPI\\\\RecruitmentManagementAPI\\\\RecruitmentManagementAPI\\\\bin\\\\Debug\\\\net7.0\\\\CSVFiles\\\\csvPrueba.csv\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Document",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyNTIxMSwiZXhwIjoxNjk5NDExNjExLCJpYXQiOjE2OTkzMjUyMTF9.mp5FS1_JKozpjICG0PzRzf1xHuy1mUaAFFy3Zqif4ug",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 17,\r\n  \"fileName\": \"csvPrueba2\",\r\n  \"csvColumns\": [\r\n    \"Name\",\r\n    \"Email\"\r\n  ],\r\n  \"csvData\": [\r\n    [\r\n      \"Jero\",\"jero@gmailcom\"\r\n    ],\r\n    [\r\n      \"Juan\",\"juan@gmailcom\"\r\n    ]\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:7245/api/DocumentControler/UpdateDocument?id=17",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"DocumentControler",
+										"UpdateDocument"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "17"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteDocument",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IlJlY3J1aXRlciIsIm5iZiI6MTY5OTMyNTIxMSwiZXhwIjoxNjk5NDExNjExLCJpYXQiOjE2OTkzMjUyMTF9.mp5FS1_JKozpjICG0PzRzf1xHuy1mUaAFFy3Zqif4ug",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://localhost:7245/api/DocumentControler/DeleteDocument?id=9",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "7245",
+									"path": [
+										"api",
+										"DocumentControler",
+										"DeleteDocument"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "9"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Candidate Actions",
+			"item": [
+				{
+					"name": "Candidates Log In",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "https://localhost:7245/api/CandidateController/CandidateLogIn"
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"userName\": \"Jeronimo\",\r\n  \"password\": \"Jero+123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://localhost:7245/api/CandidateController/CandidateLogIn"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 07 Nov 2023 01:47:11 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Kestrel"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"statusCode\": 200,\n    \"isSuccesful\": true,\n    \"errorMessages\": [],\n    \"result\": {\n        \"user\": {\n            \"id\": \"8\",\n            \"name\": \"Jeronimo\",\n            \"email\": \"jeroxx@gmail.com\",\n            \"password\": \"Jero+123\",\n            \"rol\": \"Cadidate\"\n        },\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI4Iiwicm9sZSI6IkNhZGlkYXRlIiwibmJmIjoxNjk5MzIxNjMyLCJleHAiOjE2OTk0MDgwMzIsImlhdCI6MTY5OTMyMTYzMn0.P3OI9PvfL5Tso1CZeooTwvNLjiM1q6UL60mivIeyK5U\",\n        \"rol\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload Document",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "https://localhost:7245/api/DocumentControler/UploadDocument"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
