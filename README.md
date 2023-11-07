@@ -16,8 +16,7 @@ Se ha permitido que los Recruiters se puedan borrar y editar entre si.
 
 ## Futuras mejoras
 Las contraseñas no se guardan encriptadas.
-Unificar los usuarios en una sola entidad que se relacione consigo misma de manera que se puedan 
-ahorrar un controlador, un repositorio y mucha repeticion de codigo. Se implementará en futuras actualizaciones.
+Como ponia un CRUD por cada entidad decidí separar una entidad para los reclutadores y otra para los candidatos. Sin embargo, despues de haberlo desarrollado convendria unificar los usuarios en una sola entidad que se relacione consigo misma para que los candidatos sigan teniendo un creador de manera que se puedan ahorrar un controlador, un repositorio y mucha repeticion de codigo. Se implementará en futuras actualizaciones.
 
 ## Requisitos Previos
 Asegúrate de tener instalados los siguientes elementos antes de utilizar esta API:
