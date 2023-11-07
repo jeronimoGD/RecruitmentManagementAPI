@@ -1,8 +1,7 @@
 # RecruitmentManagementAPI
+API para la gestion de candidatos y sus respctivos ficheros. Cuenta con un rol de recruiter y uno para los candidatos. Que siguen las siuientes reglas:
 
-## Requirements:
-As developer you need to develop an API using .NET 7 to cover the following features.\
-### Features to implement:
+## Features to implement:
   1. Recruiter CRUD
   2. Candidate CRUD
   3. Document CRUD
@@ -11,16 +10,35 @@ As developer you need to develop an API using .NET 7 to cover the following feat
   6. As recruiter you can create/edit/delete a document (CSV)
   7. As candidate you can log-in
   8. As candidate you can upload/re-upload document (CSV)
-### Recommended tools:
-  1. Visual Studio
-  2. Postman
-  3. Git
-### Guidelines:
-  1. Use a public GitHub repository so we can review your code
-  2. Use best practices
-  3. Comment your decisions
-  4. Clean code
 
+NOTA: 
+Se ha permitido que los Recruiters se puedan borrar y editar entre si.
+
+## Futuras mejoras
+Las contraseñas no se guardan encriptadas.
+Unificar los usuarios en una sola entidad que se relacione consigo misma de manera que se puedan 
+ahorrar un controlador, un repositorio y mucha repeticion de codigo. Se implementará en futuras actualizaciones.
+
+## Requisitos Previos
+Asegúrate de tener instalados los siguientes elementos antes de utilizar esta API:
+- SDK de .NET en su ultima version
+- SQLServer
+- Postman
+- Visual Studio recomendable 
+
+## Instalación y Configuración
+
+1. **Clona el Repositorio:**
+   ```bash
+   git clone [git@github.com:jeronimoGD/RecruitmentManagementAPI.git](https://github.com/jeronimoGD/RecruitmentManagementAPI.git)
+
+2. Configura tu servidor de SQL Server en la cadena de conexion del fichero appsettings.js
+   EJ: "Server=[Your SQL Server ]; Database=RecruitmentManagementDB; TrustServerCertificate=true; Trusted_Connection=true; MultipleActiveResultSets=true"
+3. Puedes ejecutar la aplicacion desde la terminal con el comando (dotnet run en el directorio clonado) o desde visual studio cargando la solucion.
+4. Utiliza Postman o Swager para probar cada uno de los endpoints.
+5. Utiliza el fichero RecruiterManagementAPI_CollectionTests.postman_collection.json. Remmeber to change the IP of your api if needed and to use the
+   token you get at login for authentification.
+   
 ## Initial Task breakdown
 1. Create API .NET7 template project.
 2. Create DB migrations following a code first aproach. (Include migration to create data base and items if not found on start up)
