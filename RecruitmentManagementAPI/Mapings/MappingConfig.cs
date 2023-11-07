@@ -12,9 +12,12 @@ namespace MagicVilla_API.Mapings
             CreateMap<Recruiter, UserCreateDTO>().ReverseMap();
             CreateMap<Recruiter, UserUpdateDTO>().ReverseMap();
 
+            CreateMap<Candidate, UserDTO>().ReverseMap();
             CreateMap<Candidate, CandidateDTO>().ReverseMap();
             CreateMap<Candidate, UserUpdateDTO>().ReverseMap();
             CreateMap<Candidate, CandidateCreateDTO>().ReverseMap();
+
+            CreateMap<CSVDocument, CSVDocumentDTO>().ReverseMap();
         }
     }
 }
