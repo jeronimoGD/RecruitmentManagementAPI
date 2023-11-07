@@ -15,6 +15,7 @@ using RecruitmentManagementAPI.Models.Entities;
 using RecruitmentManagementAPI.Services;
 using RecruitmentManagementAPI.Services.Repository.IRepository;
 using System.Net;
+using System.Security.Claims;
 
 namespace RecruitmentManagementAPI.Controllers
 {
@@ -170,8 +171,17 @@ namespace RecruitmentManagementAPI.Controllers
                     }
                     else
                     {
-                        await _unitOfWork.Recruiters.Delete(recruiter);
-                        _response = APIResponse.NoContent();
+                        var authorizedRecruiterId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                        if (authorizedRecruiterId == id)
+                        {
+                            await _unitOfWork.Recruiters.Delete(recruiter);
+                            _response = APIResponse.NoContent();
+                        }
+                        else
+                        {
+                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"You can not delete recruiter with id {id}. You can only delete your own information. Your id is {authorizedRecruiterId}" });
+                        }
                     }
                 }
             }
@@ -211,19 +221,28 @@ namespace RecruitmentManagementAPI.Controllers
                     }
                     else
                     {
-                        if (!_commonUtils.IsStrongPassword(recruiterUpdateDTO.Password))
+                        var authorizedRecruiterId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                        if (authorizedRecruiterId == recruiterUpdateDTO.Id)
                         {
-                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"The password is no strong enough. Please create a minimum 8 characters password with atleast 1 digit, 1 simbol, 1 uppercase and 1 lowercase" });
+                            if (!_commonUtils.IsStrongPassword(recruiterUpdateDTO.Password))
+                            {
+                                _response = APIResponse.BadRequest(ModelState, new List<string> { $"The password is no strong enough. Please create a minimum 8 characters password with atleast 1 digit, 1 simbol, 1 uppercase and 1 lowercase" });
+                            }
+                            else
+                            {
+                                Recruiter updatedRecruiter = _mapper.Map<Recruiter>(recruiterUpdateDTO);
+                                updatedRecruiter.UpdateTime = DateTime.UtcNow;
+                                updatedRecruiter.CreationTime = DateTime.UtcNow;
+                                updatedRecruiter.Rol = APIConstants.RecruiterRole;
+
+                                await _unitOfWork.Recruiters.Update(updatedRecruiter);
+                                _response = APIResponse.NoContent();
+                            }
                         }
                         else
                         {
-                            Recruiter updatedRecruiter = _mapper.Map<Recruiter>(recruiterUpdateDTO);
-                            updatedRecruiter.UpdateTime = DateTime.UtcNow;
-                            updatedRecruiter.CreationTime = DateTime.UtcNow;
-                            updatedRecruiter.Rol = APIConstants.RecruiterRole;
-
-                            await _unitOfWork.Recruiters.Update(updatedRecruiter);
-                            _response = APIResponse.NoContent();
+                            _response = APIResponse.BadRequest(ModelState, new List<string> { $"You can not update recruiter with id {recruiterUpdateDTO.Id}. You can only update your own information. Your id is {authorizedRecruiterId}" });
                         }
                     }
                 }

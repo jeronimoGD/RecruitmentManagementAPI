@@ -40,37 +40,38 @@ namespace RecruitmentManagementAPI.Services.Repository
 
         public async Task<LoginResponseDTO> LogIn(LoginRequestDTO loginRequestDTO)
         {
-            var logedUser = await _dbContext.Recruiters.FirstOrDefaultAsync(r => r.Name.ToLower() == loginRequestDTO.UserName.ToLower() &&
-                                                                     r.Password == _commonUtils.HashPasswordSHA256(loginRequestDTO.Password));
-            if (logedUser == null)
-            {
-                return new LoginResponseDTO()
-                {
-                    Token = "",
-                    User = null
-                };
-            }
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_apiSettings.IssuerSigningKey);
-            var tokenDecsriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.NameIdentifier, logedUser.Id.ToString()),
-                    new Claim(ClaimTypes.Role, logedUser.Rol)
-                }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-
-            };
-            var token = tokenHandler.CreateToken(tokenDecsriptor);
-
             LoginResponseDTO loginResponse = new LoginResponseDTO()
             {
-                Token = tokenHandler.WriteToken(token),
-                User = _mapper.Map<UserDTO>(logedUser)
+                Token = "",
+                User = null
             };
+
+            var logedUser = await _dbContext.Recruiters.FirstOrDefaultAsync(r => r.Name.ToLower() == loginRequestDTO.UserName.ToLower() &&
+                                                                     r.Password == _commonUtils.HashPasswordSHA256(loginRequestDTO.Password));
+            if (logedUser != null)
+            {
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_apiSettings.IssuerSigningKey);
+                var tokenDecsriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, logedUser.Id.ToString()),
+                        new Claim(ClaimTypes.Role, logedUser.Rol)
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+
+                };
+                var token = tokenHandler.CreateToken(tokenDecsriptor);
+
+                loginResponse = new LoginResponseDTO()
+                {
+                    Token = tokenHandler.WriteToken(token),
+                    User = _mapper.Map<UserDTO>(logedUser)
+                };
+            }
 
             return loginResponse;
         }
