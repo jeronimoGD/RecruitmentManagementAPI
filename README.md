@@ -54,7 +54,7 @@ Asegúrate de tener instalados los siguientes elementos antes de utilizar esta A
 
 ## Endpoints
 
-# Candidate
+### Candidate
 1. GET /api/CandidateController/GetCandidates
 2. GET /api/CandidateController/GetCreatedCandidates
 3. POST /api/CandidateController/CreateCandidate
@@ -62,14 +62,14 @@ Asegúrate de tener instalados los siguientes elementos antes de utilizar esta A
 5.DELETE /api/CandidateController/DeleteCandidate
 6.PUT /api/CandidateController/UpdateCandidate
 
-# Document
+### Document
 1. GET /api/DocumentControler/GetDocuments
 2. POST /api/DocumentControler/CreateDocument
 3. POST /api/DocumentControler/UploadDocument
 4. DELETE /api/DocumentControler/DeleteDocument
 5. PUT /api/DocumentControler/UpdateDocument
 
-# Recruiter
+### Recruiter
 1. GET /api/RecruiterControler/GetRecruiters
 2. POST /api/RecruiterControler/RegisterRecruiter
 3. POST /api/RecruiterControler/LogIn
