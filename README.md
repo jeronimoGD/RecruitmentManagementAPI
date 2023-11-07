@@ -55,39 +55,23 @@ Asegúrate de tener instalados los siguientes elementos antes de utilizar esta A
 ## Endpoints
 
 # Candidate
-GET
-/api/CandidateController/GetCandidates
-GET
-/api/CandidateController/GetCreatedCandidates
-POST
-/api/CandidateController/CreateCandidate
-POST
-/api/CandidateController/CandidateLogIn
-DELETE
-/api/CandidateController/DeleteCandidate
-PUT
-/api/CandidateController/UpdateCandidate
+1. GET /api/CandidateController/GetCandidates
+2. GET /api/CandidateController/GetCreatedCandidates
+3. POST /api/CandidateController/CreateCandidate
+4.POST /api/CandidateController/CandidateLogIn
+5.DELETE /api/CandidateController/DeleteCandidate
+6.PUT /api/CandidateController/UpdateCandidate
 
 # Document
-GET
-/api/DocumentControler/GetDocuments
-POST
-/api/DocumentControler/CreateDocument
-POST
-/api/DocumentControler/UploadDocument
-DELETE
-/api/DocumentControler/DeleteDocument
-PUT
-/api/DocumentControler/UpdateDocument
+1. GET /api/DocumentControler/GetDocuments
+2. POST /api/DocumentControler/CreateDocument
+3. POST /api/DocumentControler/UploadDocument
+4. DELETE /api/DocumentControler/DeleteDocument
+5. PUT /api/DocumentControler/UpdateDocument
 
 # Recruiter
-GET
-/api/RecruiterControler/GetRecruiters
-POST
-/api/RecruiterControler/RegisterRecruiter
-POST
-/api/RecruiterControler/LogIn
-DELETE
-/api/RecruiterControler/DeleteRecruiter
-PUT
-/api/RecruiterControler/UpdateRecruiter
+1. GET /api/RecruiterControler/GetRecruiters
+2. POST /api/RecruiterControler/RegisterRecruiter
+3. POST /api/RecruiterControler/LogIn
+4. DELETE /api/RecruiterControler/DeleteRecruiter
+5. PUT /api/RecruiterControler/UpdateRecruiter
