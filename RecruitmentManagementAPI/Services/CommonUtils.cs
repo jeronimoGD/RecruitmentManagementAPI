@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO.Pipes;
 using RecruitmentManagementAPI.Controllers;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace RecruitmentManagementAPI.Services
 {
@@ -166,6 +168,24 @@ namespace RecruitmentManagementAPI.Services
         public string AddFileExtension(string fileName, string extension)
         { 
             return $"{fileName}.{extension}";
+        }
+
+        public string HashPasswordSHA256(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+               
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(passwordBytes);                
+                StringBuilder builder = new StringBuilder();
+                
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
+            }
         }
     }
 }

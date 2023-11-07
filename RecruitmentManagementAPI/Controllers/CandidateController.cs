@@ -130,7 +130,7 @@ namespace RecruitmentManagementAPI.Controllers
                             newCandidate.UpdateTime = DateTime.UtcNow;
                             newCandidate.Rol = APIConstants.CandidateRole;
                             newCandidate.RecruiterId = int.Parse(recriterCreatorID);
-
+                            newCandidate.Password = _commonUtils.HashPasswordSHA256(newCandidate.Password);
                             await _unitOfWork.Candidates.Create(newCandidate);
                             _response = APIResponse.Created(newCandidate);
                         }

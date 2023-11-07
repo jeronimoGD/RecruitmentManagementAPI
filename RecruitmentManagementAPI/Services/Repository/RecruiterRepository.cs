@@ -22,12 +22,14 @@ namespace RecruitmentManagementAPI.Services.Repository
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly APISettings _apiSettings;
+        private readonly CommonUtils _commonUtils;
 
-        public RecruiterRepository(ApplicationDbContext dbContext, IMapper mapper, IOptions<APISettings> apiSettings) : base(dbContext)
+        public RecruiterRepository(ApplicationDbContext dbContext, IMapper mapper, IOptions<APISettings> apiSettings, CommonUtils commonUtils) : base(dbContext)
         {
             _apiSettings = apiSettings.Value;
             _dbContext = dbContext;
             _mapper = mapper;
+            _commonUtils = commonUtils;
         }
 
         public bool DoesUserExists(string userName)
@@ -39,7 +41,7 @@ namespace RecruitmentManagementAPI.Services.Repository
         public async Task<LoginResponseDTO> LogIn(LoginRequestDTO loginRequestDTO)
         {
             var logedUser = await _dbContext.Recruiters.FirstOrDefaultAsync(r => r.Name.ToLower() == loginRequestDTO.UserName.ToLower() &&
-                                                                     r.Password == loginRequestDTO.Password);
+                                                                     r.Password == _commonUtils.HashPasswordSHA256(loginRequestDTO.Password));
             if (logedUser == null)
             {
                 return new LoginResponseDTO()
@@ -79,7 +81,7 @@ namespace RecruitmentManagementAPI.Services.Repository
             {
                 Name = registerRequestDTO.Name,
                 Email = registerRequestDTO.Email,
-                Password = registerRequestDTO.Password,
+                Password = _commonUtils.HashPasswordSHA256(registerRequestDTO.Password),
                 Rol = APIConstants.RecruiterRole,
                 CreationTime = DateTime.UtcNow,
                 UpdateTime = DateTime.UtcNow

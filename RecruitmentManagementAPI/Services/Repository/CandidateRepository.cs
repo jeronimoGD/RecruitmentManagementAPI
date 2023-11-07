@@ -19,11 +19,13 @@ namespace RecruitmentManagementAPI.Services.Repository
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly APISettings _apiSettings;
-        public CandidateRepository(ApplicationDbContext dbContext, IMapper mapper, IOptions<APISettings> apiSettings) : base(dbContext)
+        private readonly CommonUtils _commonUtils;
+        public CandidateRepository(ApplicationDbContext dbContext, IMapper mapper, IOptions<APISettings> apiSettings, CommonUtils commonUtils) : base(dbContext)
         {
             _apiSettings = apiSettings.Value;
             _dbContext = dbContext;
             _mapper = mapper;
+            _commonUtils = commonUtils;
         }
 
         public bool DoesUserExists(string userName)
@@ -35,7 +37,7 @@ namespace RecruitmentManagementAPI.Services.Repository
         public async Task<LoginResponseDTO> LogIn(LoginRequestDTO loginRequestDTO)
         {
             var logedUser = await _dbContext.Candidates.FirstOrDefaultAsync(r => r.Name.ToLower() == loginRequestDTO.UserName.ToLower() &&
-                                                                            r.Password == loginRequestDTO.Password);
+                                                                            r.Password == _commonUtils.HashPasswordSHA256(loginRequestDTO.Password));
             if (logedUser == null)
             {
                 return new LoginResponseDTO()

@@ -13,22 +13,23 @@ namespace RecruitmentManagementAPI.Services.Repository
         private ICandidateRepository _candidates { get; set; }
         private IRepository<CSVDocument> _documents { get; set; }
 
-        private readonly ApplicationDbContext _dbContext;
+        protected readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IOptions<APISettings> _apiSettings;
-
-        public UnitOfWork(ApplicationDbContext context, IConfiguration conf, IMapper mapper, IOptions<APISettings> apiSettings)
+        private readonly CommonUtils _commonUtils;
+        public UnitOfWork(ApplicationDbContext context, IConfiguration conf, IMapper mapper, IOptions<APISettings> apiSettings, CommonUtils commonUtils)
         {
             _dbContext = context;
             _apiSettings = apiSettings;
             _mapper = mapper;
+            _commonUtils = commonUtils;
         }
 
         public IRecruiterRepository Recruiters
         {
             get
             {
-                return _recruiters == null ? _recruiters = new RecruiterRepository(_dbContext, _mapper, _apiSettings) : _recruiters;
+                return _recruiters == null ? _recruiters = new RecruiterRepository(_dbContext, _mapper, _apiSettings, _commonUtils) : _recruiters;
             }
         }
 
@@ -36,7 +37,7 @@ namespace RecruitmentManagementAPI.Services.Repository
         {
             get
             {
-                return _candidates == null ? _candidates = new CandidateRepository(_dbContext, _mapper, _apiSettings) : _candidates;
+                return _candidates == null ? _candidates = new CandidateRepository(_dbContext, _mapper, _apiSettings, _commonUtils) : _candidates;
             }
         }
 
