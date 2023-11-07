@@ -18,6 +18,8 @@ Se ha permitido que los Recruiters se puedan borrar y editar entre si.
 Las contraseñas no se guardan encriptadas.
 Como ponia un CRUD por cada entidad decidí separar una entidad para los reclutadores y otra para los candidatos. Sin embargo, despues de haberlo desarrollado convendria unificar los usuarios en una sola entidad que se relacione consigo misma para que los candidatos sigan teniendo un creador de manera que se puedan ahorrar un controlador, un repositorio y mucha repeticion de codigo. Se implementará en futuras actualizaciones.
 
+La unificacion de usuarios se puede solucionar utilizando Identity pero decidí no utilizar esta biblioteca para esta prueba tecnica por que entendi que se queria ver el diseño de los modelos y la migracion a la base de datos.
+
 ## Requisitos Previos
 Asegúrate de tener instalados los siguientes elementos antes de utilizar esta API:
 - SDK de .NET en su ultima version
