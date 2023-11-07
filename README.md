@@ -51,3 +51,43 @@ Asegúrate de tener instalados los siguientes elementos antes de utilizar esta A
 8. Add logic to alow recruiters crate, edit or delete CSV documents
 9. Create a document with the Postmant petitions to test the API
 10. Document API
+
+## Endpoints
+
+# Candidate
+GET
+/api/CandidateController/GetCandidates
+GET
+/api/CandidateController/GetCreatedCandidates
+POST
+/api/CandidateController/CreateCandidate
+POST
+/api/CandidateController/CandidateLogIn
+DELETE
+/api/CandidateController/DeleteCandidate
+PUT
+/api/CandidateController/UpdateCandidate
+
+# Document
+GET
+/api/DocumentControler/GetDocuments
+POST
+/api/DocumentControler/CreateDocument
+POST
+/api/DocumentControler/UploadDocument
+DELETE
+/api/DocumentControler/DeleteDocument
+PUT
+/api/DocumentControler/UpdateDocument
+
+# Recruiter
+GET
+/api/RecruiterControler/GetRecruiters
+POST
+/api/RecruiterControler/RegisterRecruiter
+POST
+/api/RecruiterControler/LogIn
+DELETE
+/api/RecruiterControler/DeleteRecruiter
+PUT
+/api/RecruiterControler/UpdateRecruiter
